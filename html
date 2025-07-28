@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kristhian</title>
+
+  <!-- Fuente Merriweather -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: radial-gradient(circle at top left, #d0e7f9, #f0f4ff 40%, #e3f2fd);
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #3a5f7d;
+      font-size: 2.2rem;
+      margin: 40px 20px 20px;
+      z-index: 1;
+    }
+
+    .card-container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card {
+      background-color: #5b61a1;
+      border-radius: 16px;
+      padding: 40px;
+      width: 80vw;
+      height: 50vh;
+      max-width: 1200px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      color: #000;
+      cursor: pointer;
+      transition: opacity 0.5s ease, transform 0.3s ease;
+      animation: pulse 1.5s infinite;
+      text-align: center;
+    }
+
+    .card.fade {
+      opacity: 0;
+    }
+
+    .card span.frase {
+      font-family: 'Merriweather', serif;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .card span.autor {
+      font-family: 'Merriweather', serif;
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+
+    .warning {
+      margin-top: 20px;
+      color: #ff4d4d;
+      font-weight: bold;
+      display: none;
+      z-index: 1;
+    }
+
+    .raindrop {
+      position: absolute;
+      width: 2px;
+      height: 15px;
+      background-color: #90caf9;
+      border-radius: 1px;
+      opacity: 0.7;
+      animation: rain 2s linear forwards;
+    }
+
+    @keyframes rain {
+      0% { top: -20px; opacity: 0; }
+      10% { opacity: 0.7; }
+      100% { top: 100vh; opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>The first and only time I loved, love and will love for real</h1>
+  <div class="card-container">
+    <div class="card" id="mainCard"></div>
+    <div class="warning" id="warning">Clickea el rectángulo bobo >:(</div>
+  </div>
+
+  <!-- Audio de fondo -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="love.ogg" type="audio/ogg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+
+  <script>
+    const frases = [
+      "<span class='frase'>“Amor es tan corto, y el olvido tan largo.”</span> <span class='autor'>— Pablo Neruda</span>",
+      "<span class='frase'>“Y en un beso, sabrás todo lo que he callado.”</span> <span class='autor'>— Pablo Neruda</span>",
+      "<span class='frase'>“Si no me amas, no me ames; pero no me odies tampoco.”</span> <span class='autor'>— Alejandra Pizarnik</span>",
+      "<span class='frase'>“Amo tus pies porque anduvieron sobre la tierra y sobre el viento y sobre el agua, hasta que me encontraron.”</span> <span class='autor'>— Pablo Neruda</span>",
+      "<span class='frase'>“Yo te amo para comenzar a amarte, para recomenzar el infinito y para no dejar de amarte nunca.”</span> <span class='autor'>— Pablo Neruda</span>",
+      "<span class='frase'>“Te quiero como se quiere a ciertos amores, a la antigua… con el alma y sin mirar atrás.”</span> <span class='autor'>— Jaime Sabines</span>",
+      "<span class='frase'>“Mi estrategia es que un día cualquiera no sé cómo ni sé con qué pretexto por fin me necesites.”</span> <span class='autor'>— Mario Benedetti</span>",
+      "<span class='frase'>“Y para estar total, completa, absolutamente enamorado, hay que tener plena conciencia de que uno también es querido, que uno también inspira amor.”</span> <span class='autor'>— Mario Benedetti</span>",
+      "<span class='frase'>“Lo nuestro es ese amor que aunque el tiempo pase, no envejece.”</span> <span class='autor'>— Idea Vilariño</span>",
+      "<span class='frase'>“El amor será eterno mientras dure.”</span> <span class='autor'>— Vinicius de Moraes</span>",
+      "<span class='frase'>“El amor es intensidad y por esto es una distensión del tiempo: estira los minutos y los alarga como siglos.”</span> <span class='autor'>— Octavio Paz</span>",
+      "<span class='frase'>“Si el amor vive en el alma, es eterno aunque el cuerpo cambie.”</span> <span class='autor'>— Gabriela Mistral</span>",
+      "<span class='frase'>“Yo soy la llama que arde y no se ve, que por amar se consume en su secreto.”</span> <span class='autor'>— Delmira Agustini</span>",
+      "<span class='frase'>“Amor, amor, mi vida, mi destino: todo lo que soy te lo he dado en silencio.”</span> <span class='autor'>— Delmira Agustini</span>",
+      "<span class='frase'>“Seré para ti como la luna fiel al cielo: aún en la distancia, eterna y constante.”</span> <span class='autor'>— Delmira Agustini</span>",
+      "<span class='frase'>“Y si te quiero, es porque sos mi amor, mi cómplice y todo. Y en la calle, codo a codo, somos mucho más que dos.”</span> <span class='autor'>— Mario Benedetti</span>",
+      "<span class='frase'>“El amor todo lo sufre, todo lo cree, todo lo espera, todo lo soporta.”</span> <span class='autor'>— 1 Corintios 13:7</span>",
+      "<span class='frase'>“Ahora permanecen la fe, la esperanza y el amor, pero el mayor de ellos es el amor.”</span> <span class='autor'>— 1 Corintios 13:13</span>",
+      "<span class='frase'>“Sobre todas las cosas guarda tu corazón, porque de él mana la vida.”</span> <span class='autor'>— Proverbios 4:23</span>",
+      "<span class='frase'>“Mi amado es mío, y yo soy suya.”</span> <span class='autor'>— Cantar de los Cantares 2:16</span>",
+      "<span class='frase'>“Yo soy para mi amado, y él me desea.”</span> <span class='autor'>— Cantar de los Cantares 7:10</span>"
+    ];
+
+    const card = document.getElementById('mainCard');
+    const warning = document.getElementById('warning');
+    const audio = document.getElementById('bgMusic');
+    let clicked = false;
+
+    function getRandomFrase() {
+      return frases[Math.floor(Math.random() * frases.length)];
+    }
+
+    card.addEventListener('click', () => {
+      clicked = true;
+      warning.style.display = 'none';
+
+      if (audio.paused) {
+        audio.play().catch(err => {
+          console.log("El navegador bloqueó la reproducción automática:", err);
+        });
+      }
+
+      card.classList.add('fade');
+      setTimeout(() => {
+        card.innerHTML = getRandomFrase();
+        card.classList.remove('fade');
+      }, 300);
+    });
+
+    setTimeout(() => {
+      if (!clicked) {
+        warning.style.display = 'block';
+      }
+    }, 5000);
+
+    function crearGota() {
+      const gota = document.createElement('div');
+      gota.classList.add('raindrop');
+      gota.style.left = `${Math.random() * 100}vw`;
+      document.body.appendChild(gota);
+      setTimeout(() => gota.remove(), 2000);
+    }
+
+    setInterval(() => {
+      for (let i = 0; i < 10; i++) crearGota();
+    }, 300);
+  </script>
+</body>
+</html>
